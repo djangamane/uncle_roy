@@ -5,7 +5,7 @@ require('dotenv').config();
 app.use(express.json());
 app.use(express.static('public'));
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 // Add timeout middleware
 app.use((req, res, next) => {

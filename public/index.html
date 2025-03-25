@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uncle Roy's Wisdom | UNC Planetary Chess</title>
+    <title>Uncle Roy | Planetary Chess Inc. | Fighting White Supremacy Through Technology</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+Pro:wght@400;600&family=Special+Elite&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap');
         
         :root {
-            --primary-dark: #2b1d0e;  /* Rich dark brown like old leather books */
-            --primary-accent: #c19a49;  /* Gold accent for legal wisdom */
-            --paper-color: #f5f1e6;  /* Aged paper background */
-            --ink-color: #2c2416;  /* Dark ink color */
-            --book-brown: #5d4a33;  /* Book binding color */
-            --highlight: #b22222;  /* Deep red for highlights */
-            --shadow: rgba(0, 0, 0, 0.3);
-            --chess-dark: #4a3c2e;  /* Dark chess square */
-            --chess-light: #8b7355;  /* Light chess square */
+            --primary: #000000;
+            --accent: #ff3d00;
+            --text: #ffffff;
+            --chess-dark: #769656;
+            --chess-light: #eeeed2;
+            --highlight: #ff3d00;
+            --overlay: rgba(0, 0, 0, 0.85);
         }
 
         * {
@@ -27,581 +25,277 @@
         }
 
         body {
-            font-family: 'Source Serif Pro', Georgia, serif;
-            background-color: var(--primary-dark);
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
             line-height: 1.6;
-            color: var(--ink-color);
-            background-image: 
-                linear-gradient(45deg, var(--chess-dark) 25%, transparent 25%, transparent 75%, var(--chess-dark) 75%, var(--chess-dark)),
-                linear-gradient(-45deg, var(--chess-dark) 25%, transparent 25%, transparent 75%, var(--chess-dark) 75%, var(--chess-dark));
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
             overflow-x: hidden;
         }
 
-        .page-container {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        .bookshelf {
+        .chess-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            background-image: 
+                repeating-conic-gradient(
+                    var(--chess-dark) 0% 25%,
+                    var(--chess-light) 0% 50%
+                );
+            background-size: 200px 200px;
             opacity: 0.15;
-            background-image: repeating-linear-gradient(90deg, 
-                var(--book-brown) 0px, 
-                var(--book-brown) 30px, 
-                #8b7355 30px, 
-                #8b7355 60px,
-                #6b5c45 60px,
-                #6b5c45 90px,
-                #4a3c2e 90px,
-                #4a3c2e 120px);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
         }
 
         .header {
-            padding: 2rem 0;
             text-align: center;
+            margin-bottom: 2rem;
             position: relative;
         }
 
-        .title-area {
-            margin-bottom: 1rem;
-        }
-
-        .main-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            color: var(--paper-color);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--text);
+            text-transform: uppercase;
             margin-bottom: 0.5rem;
+            letter-spacing: 2px;
         }
 
-        .subtitle {
-            font-family: 'Special Elite', cursive;
-            color: var(--primary-accent);
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+        .mission {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
         }
 
-        .years {
-            font-style: italic;
-            color: var(--paper-color);
-            opacity: 0.8;
-            margin-top: 0.5rem;
-        }
-
-        .uncle-portrait {
+        .portrait-container {
             position: relative;
-            width: 180px;
-            height: 180px;
+            width: 250px;
+            height: 250px;
             margin: 0 auto;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 4px solid var(--accent);
             overflow: hidden;
-            transform: rotate(-3deg);
-            transition: all 0.3s ease;
-            border: 12px solid #5d4a33;
-            border-bottom-width: 30px;
+            margin-bottom: 2rem;
         }
 
-        .uncle-portrait:hover {
-            transform: rotate(0deg) scale(1.05);
-        }
-
-        .uncle-portrait img {
+        .portrait-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: grayscale(100%) contrast(120%);
         }
 
-        .uncle-portrait::after {
-            content: "Roy Rogers Gunner";
-            position: absolute;
-            bottom: -25px;
-            left: 0;
-            width: 100%;
+        .manifesto {
             text-align: center;
-            font-family: 'Special Elite', cursive;
-            color: var(--paper-color);
-            font-size: 0.8rem;
-        }
-
-        .book-container {
-            max-width: 900px;
             margin: 2rem auto;
-            perspective: 1000px;
-            padding: 0 20px;
-        }
-
-        .book {
-            background-color: var(--paper-color);
-            border-radius: 5px;
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            padding: 1rem;
+            max-width: 1000px;
             position: relative;
-            transform-style: preserve-3d;
-            transform: rotateY(-3deg);
-            transition: transform 0.5s ease;
         }
 
-        .book:hover {
-            transform: rotateY(0deg);
-        }
-
-        .book::before {
-            content: "";
+        .manifesto::before,
+        .manifesto::after {
+            content: '';
             position: absolute;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .manifesto::before {
             top: 0;
-            width: 30px;
-            height: 100%;
-            background: linear-gradient(to right, 
-                var(--book-brown), 
-                var(--book-brown) 5px, 
-                var(--primary-accent) 5px, 
-                var(--primary-accent) 7px, 
-                var(--book-brown) 7px, 
-                var(--book-brown) 10px, 
-                var(--paper-color) 10px);
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
-            z-index: 2;
         }
 
-        .book-spine-label {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%) rotate(-90deg);
-            transform-origin: left center;
-            color: var(--paper-color);
-            font-family: 'Special Elite', cursive;
-            font-size: 1rem;
-            white-space: nowrap;
-            z-index: 3;
+        .manifesto::after {
+            bottom: 0;
         }
 
-        .book-pages {
+        .manifesto-text {
+            font-size: 1.1rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .content-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
             position: relative;
-            padding: 2rem 2rem 2rem 4rem;
-            background-image: 
-                linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
-            min-height: 600px;
         }
 
-        .book-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            color: var(--highlight);
+        .scholar-portrait {
+            width: 300px;
+            height: 380px;
+            border: 4px solid var(--accent);
+            overflow: hidden;
+            flex-shrink: 0;
+            align-self: center;
+        }
+
+        .scholar-portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        .chat-interface {
+            flex-grow: 1;
+            background: var(--primary);
+            border: 4px solid var(--accent);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        .chat-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--accent);
             text-align: center;
-            margin-bottom: 1.5rem;
-            text-decoration: underline;
-            text-decoration-color: var(--primary-accent);
-            text-decoration-thickness: 2px;
-            text-underline-offset: 5px;
+            text-transform: uppercase;
+            padding: 1.5rem;
+            border-bottom: 4px solid var(--accent);
         }
 
         .chat-box {
-            height: 400px;
+            flex: 1;
+            min-height: 400px;
+            padding: 2rem;
             overflow-y: auto;
-            margin-bottom: 1.5rem;
-            padding-right: 10px;
-        }
-
-        .chat-box::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .chat-box::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.05);
-            border-radius: 10px;
-        }
-
-        .chat-box::-webkit-scrollbar-thumb {
-            background: var(--book-brown);
-            border-radius: 10px;
-        }
-
-        .chat-box::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-accent);
-        }
-
-        .message {
-            margin-bottom: 1.5rem;
-            position: relative;
-            font-family: 'Source Serif Pro', Georgia, serif;
-        }
-
-        .user-message {
-            padding-left: 1.5rem;
-            border-left: 3px solid var(--primary-accent);
-            color: var(--ink-color);
-        }
-
-        .bot-message {
-            padding: 1rem 1.5rem;
-            background-color: rgba(193, 154, 73, 0.1);
-            border-radius: 5px;
-            color: var(--ink-color);
-            position: relative;
-            font-style: italic;
-        }
-
-        .bot-message::before {
-            content: """;
-            position: absolute;
-            top: -10px;
-            left: 10px;
-            font-size: 3rem;
-            color: var(--primary-accent);
-            font-family: 'Playfair Display', serif;
-            opacity: 0.5;
+            background: var(--primary);
         }
 
         .input-area {
-            position: relative;
-            margin-top: 1rem;
-            border-top: 1px dashed var(--book-brown);
-            padding-top: 1.5rem;
-        }
-
-        .quill-container {
+            border-top: 4px solid var(--accent);
+            padding: 1.5rem;
             display: flex;
-            align-items: flex-end;
             gap: 1rem;
         }
 
-        .quill-icon {
-            font-size: 1.5rem;
-            color: var(--book-brown);
-            transform: rotate(-45deg);
-            margin-bottom: 0.5rem;
-        }
-
-        .input-container {
-            flex-grow: 1;
-            position: relative;
-        }
-
         #userInput {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: none;
-            border-bottom: 2px solid var(--book-brown);
+            flex: 1;
+            background: transparent;
+            border: 2px solid var(--accent);
+            padding: 1rem;
+            color: var(--text);
             font-size: 1rem;
-            background-color: transparent;
-            color: var(--ink-color);
-            font-family: 'Source Serif Pro', Georgia, serif;
-            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
 
         #userInput:focus {
             outline: none;
-            border-color: var(--primary-accent);
-        }
-
-        #userInput::placeholder {
-            color: rgba(44, 36, 22, 0.5);
-            font-style: italic;
+            border-color: var(--text);
         }
 
         button {
-            background-color: var(--book-brown);
-            color: var(--paper-color);
+            background: var(--accent);
+            color: var(--text);
             border: none;
-            border-radius: 5px;
-            padding: 0.75rem 1.5rem;
-            font-family: 'Special Elite', cursive;
+            padding: 1rem 2rem;
+            font-family: 'Orbitron', sans-serif;
             font-size: 1rem;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         button:hover {
-            background-color: var(--primary-accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        button:disabled {
-            background-color: #a99d8d;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .typing-indicator {
-            padding: 0.5rem;
-            display: none;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .typing-indicator span {
-            width: 8px;
-            height: 8px;
-            background-color: var(--book-brown);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 5px;
-            animation: bounce 1.4s infinite ease-in-out;
-        }
-
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-        }
-
-        .book-corner {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: var(--paper-color);
-            z-index: 1;
-        }
-
-        .book-corner-tl {
-            top: 0;
-            left: 0;
-            border-radius: 0 0 100% 0;
-            box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .book-corner-tr {
-            top: 0;
-            right: 0;
-            border-radius: 0 0 0 100%;
-            box-shadow: 2px -2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .book-corner-bl {
-            bottom: 0;
-            left: 0;
-            border-radius: 0 100% 0 0;
-            box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .book-corner-br {
-            bottom: 0;
-            right: 0;
-            border-radius: 100% 0 0 0;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .quote {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            text-align: center;
-            color: var(--primary-accent);
-            margin: 2rem 0;
-            padding: 0 2rem;
-            position: relative;
-        }
-
-        .quote::before, .quote::after {
-            content: """;
-            font-size: 3rem;
-            position: absolute;
-            opacity: 0.3;
-        }
-
-        .quote::before {
-            top: -20px;
-            left: 0;
-        }
-
-        .quote::after {
-            content: """;
-            bottom: -40px;
-            right: 0;
+            background: var(--text);
+            color: var(--primary);
         }
 
         .footer {
             text-align: center;
             padding: 2rem 0;
-            color: var(--paper-color);
+            color: var(--accent);
+            font-family: 'Orbitron', sans-serif;
             font-size: 0.9rem;
-            opacity: 0.7;
+            text-transform: uppercase;
         }
 
-        .footer span {
-            color: var(--primary-accent);
-        }
-
-        @media (max-width: 768px) {
-            .book {
-                transform: none;
+        @media (max-width: 1200px) {
+            .content-area {
+                flex-direction: column;
+                align-items: center;
             }
 
-            .book::before {
-                width: 20px;
+            .scholar-portrait {
+                width: 200px;
+                height: 250px;
             }
 
-            .book-pages {
-                padding: 1.5rem 1.5rem 1.5rem 2.5rem;
+            .chat-interface {
+                width: 100%;
             }
-
-            .book-spine-label {
-                font-size: 0.8rem;
-                left: 5px;
-            }
-
-            .main-title {
-                font-size: 2rem;
-            }
-
-            .uncle-portrait {
-                width: 150px;
-                height: 150px;
-            }
-
-            .chat-box {
-                height: 350px;
-            }
-        }
-
-        /* Ink pen animation */
-        .ink-drop {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            background-color: var(--ink-color);
-            border-radius: 50%;
-            opacity: 0;
-            animation: inkDrop 2s ease-out forwards;
-        }
-
-        @keyframes inkDrop {
-            0% { transform: scale(0); opacity: 0.8; }
-            70% { opacity: 0.5; }
-            100% { transform: scale(8); opacity: 0; }
-        }
-
-        /* Book page turn effect */
-        .page-turn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 30px;
-            height: 30px;
-            background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.03) 50%);
-            border-radius: 0 0 0 10px;
-            box-shadow: -2px 2px 3px rgba(0,0,0,0.05);
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .page-turn:hover {
-            background: linear-gradient(135deg, transparent 50%, rgba(193, 154, 73, 0.2) 50%);
         }
     </style>
 </head>
 <body>
-    <div class="page-container">
-        <div class="bookshelf"></div>
-        
+    <div class="chess-background"></div>
+    <div class="container">
         <header class="header">
-            <div class="title-area">
-                <h1 class="main-title">In Memory of Uncle Roy</h1>
-                <p class="subtitle">A Bibliophile, Attorney, and Mentor</p>
-                <p class="years">1940 - 2025</p>
-            </div>
-            
-            <div class="uncle-portrait">
-                <img src="uncle_roy.png" alt="Uncle Roy - Roy Rogers Gunner">
+            <h1 class="logo">Uncle Roy</h1>
+            <p class="mission">Anti-White Supremacy ChatBox</p>
+            <div class="portrait-container">
+                <img src="uncle_roy.png" alt="Uncle Roy - Anti-White Supremacy Advocate">
             </div>
         </header>
 
-        <main class="book-container">
-            <div class="book">
-                <div class="book-spine-label">UNC Planetary Chess</div>
-                <div class="book-corner book-corner-tl"></div>
-                <div class="book-corner book-corner-tr"></div>
-                <div class="book-corner book-corner-bl"></div>
-                <div class="book-corner book-corner-br"></div>
-                <div class="page-turn"></div>
-                
-                <div class="book-pages">
-                    <h2 class="book-title">Conversations with Uncle Roy</h2>
-                    
-                    <div class="quote">
-                        "A walking encyclopedia and sincere know-it-all. A history buff whose spirit linked us together."
-                    </div>
-                    
-                    <div class="chat-box" id="chatBox">
-                        <!-- Messages will appear here -->
-                    </div>
-                    
-                    <div class="typing-indicator" id="typingIndicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                    
-                    <div class="input-area">
-                        <div class="quill-container">
-                            <div class="quill-icon">
-                                <i class="fas fa-feather-alt"></i>
-                            </div>
-                            <div class="input-container">
-                                <input type="text" id="userInput" placeholder="Ask Uncle Roy anything..." autofocus>
-                            </div>
-                            <button onclick="sendMessage()" id="sendButton">Inquire</button>
-                        </div>
-                    </div>
+        <div class="manifesto">
+            <p class="manifesto-text">
+                "This is Uncle Roy's legacy - a weapon 
+                of mass education against white supremacy." -J.B
+            </p>
+        </div>
+
+        <div class="content-area">
+            <div class="scholar-portrait">
+                <img src="fcwelsing.png" alt="Dr. Frances Cress Welsing">
+            </div>
+            
+            <div class="chat-interface">
+                <h2 class="chat-header">Engage With<br>Uncle Roy's<br>Wisdom</h2>
+                <div class="chat-box" id="chatBox">
+                    <!-- Messages will appear here -->
+                </div>
+                <div class="input-area">
+                    <input type="text" id="userInput" placeholder="Ask anything about the Racism Game..." autofocus>
+                    <button onclick="sendMessage()" id="sendButton">SPEAK TRUTH</button>
                 </div>
             </div>
-        </main>
+
+            <div class="scholar-portrait">
+                <img src="wilson.png" alt="Dr. Wilson">
+            </div>
+        </div>
 
         <footer class="footer">
-            <p>In honor of Roy Rogers Gunner (1940-2025) | <span>UNC Planetary Chess</span></p>
+            <p>Planetary Chess Inc. | Technology Against White Supremacy</p>
         </footer>
     </div>
 
     <script>
-        // Add ink drop effect
-        document.getElementById('userInput').addEventListener('input', function(e) {
-            if (Math.random() > 0.7) {
-                const inkDrop = document.createElement('div');
-                inkDrop.className = 'ink-drop';
-                
-                const rect = this.getBoundingClientRect();
-                const caretPosition = this.selectionStart / this.value.length;
-                
-                inkDrop.style.left = (rect.left + rect.width * caretPosition * 0.8) + 'px';
-                inkDrop.style.top = (rect.top + rect.height / 2) + 'px';
-                
-                document.body.appendChild(inkDrop);
-                
-                setTimeout(() => {
-                    inkDrop.remove();
-                }, 2000);
-            }
-        });
-
-        // Page turn effect
-        document.querySelector('.page-turn').addEventListener('click', function() {
-            const book = document.querySelector('.book');
-            book.style.transition = 'transform 1.5s ease';
-            book.style.transform = book.style.transform === 'rotateY(-178deg)' ? 'rotateY(-3deg)' : 'rotateY(-178deg)';
-        });
-
         async function sendMessage() {
             const userInput = document.getElementById('userInput');
             const sendButton = document.getElementById('sendButton');
-            const typingIndicator = document.getElementById('typingIndicator');
             const message = userInput.value.trim();
             
             if (!message) return;
@@ -611,7 +305,6 @@
             
             appendMessage(message, 'user-message');
             userInput.value = '';
-            typingIndicator.style.display = 'flex';
 
             try {
                 const response = await fetch('/chat', {
@@ -627,23 +320,20 @@
                     throw new Error(data.error);
                 }
                 
-                // Simulate Uncle Roy thinking and typing
                 setTimeout(() => {
                     appendMessage(data.reply, 'bot-message');
-                    typingIndicator.style.display = 'none';
                     userInput.disabled = false;
                     sendButton.disabled = false;
                     userInput.focus();
-                }, 1500);
+                }, 1000);
             } catch (error) {
                 console.error('Error:', error);
                 setTimeout(() => {
-                    appendMessage('My apologies, something seems to have slipped my mind. Let\'s try that again.', 'bot-message');
-                    typingIndicator.style.display = 'none';
+                    appendMessage('System error. The fight continues. Please try again.', 'bot-message');
                     userInput.disabled = false;
                     sendButton.disabled = false;
                     userInput.focus();
-                }, 1500);
+                }, 1000);
             }
         }
 
@@ -653,12 +343,11 @@
             messageDiv.className = `message ${className}`;
             
             if (className === 'bot-message') {
-                // Add a subtle typewriter effect for Uncle Roy's responses
                 messageDiv.textContent = '';
                 chatBox.appendChild(messageDiv);
                 
                 let i = 0;
-                const speed = 30; // typing speed
+                const speed = 30;
                 
                 function typeWriter() {
                     if (i < message.length) {
