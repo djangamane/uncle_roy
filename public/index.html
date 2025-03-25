@@ -178,17 +178,50 @@
 
         .chat-box {
             flex: 1;
-            min-height: 400px;
-            padding: 2rem;
+            min-height: 250px;
+            background: transparent;
+            padding: 1rem;
             overflow-y: auto;
-            background: var(--primary);
         }
 
-        .input-area {
-            border-top: 4px solid var(--accent);
-            padding: 1.5rem;
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            max-width: 90%;
+        }
+
+        .user-message {
+            background: rgba(255, 255, 255, 0.1);
+            margin-left: auto;
+            border-left: 3px solid var(--accent);
+        }
+
+        .bot-message {
+            background: rgba(255, 61, 0, 0.1);
+            margin-right: auto;
+            border-left: 3px solid var(--text);
+        }
+
+        .loading-indicator {
             display: flex;
-            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .loading-indicator::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         #userInput {
@@ -204,6 +237,13 @@
         #userInput:focus {
             outline: none;
             border-color: var(--text);
+        }
+
+        .input-area {
+            border-top: 4px solid var(--accent);
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
         }
 
         button {
@@ -295,78 +335,56 @@
     <script>
         async function sendMessage() {
             const userInput = document.getElementById('userInput');
-            const sendButton = document.getElementById('sendButton');
+            const chatBox = document.querySelector('.chat-box');
             const message = userInput.value.trim();
             
             if (!message) return;
 
-            userInput.disabled = true;
-            sendButton.disabled = true;
-            
+            // Add user message
             appendMessage(message, 'user-message');
             userInput.value = '';
 
+            // Show loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'loading-indicator';
+            chatBox.appendChild(loadingDiv);
+
             try {
-                const response = await fetch('/chat', {
+                const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ message })
                 });
 
                 const data = await response.json();
-                if (data.error) {
-                    throw new Error(data.error);
-                }
                 
-                setTimeout(() => {
-                    appendMessage(data.reply, 'bot-message');
-                    userInput.disabled = false;
-                    sendButton.disabled = false;
-                    userInput.focus();
-                }, 1000);
+                // Remove loading indicator
+                loadingDiv.remove();
+                
+                // Add bot message
+                appendMessage(data.response, 'bot-message');
             } catch (error) {
                 console.error('Error:', error);
-                setTimeout(() => {
-                    appendMessage('System error. The fight continues. Please try again.', 'bot-message');
-                    userInput.disabled = false;
-                    sendButton.disabled = false;
-                    userInput.focus();
-                }, 1000);
+                loadingDiv.remove();
+                appendMessage('Sorry, there was an error processing your request.', 'bot-message');
             }
-        }
 
-        function appendMessage(message, className) {
-            const chatBox = document.getElementById('chatBox');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${className}`;
-            
-            if (className === 'bot-message') {
-                messageDiv.textContent = '';
-                chatBox.appendChild(messageDiv);
-                
-                let i = 0;
-                const speed = 30;
-                
-                function typeWriter() {
-                    if (i < message.length) {
-                        messageDiv.textContent += message.charAt(i);
-                        i++;
-                        chatBox.scrollTop = chatBox.scrollHeight;
-                        setTimeout(typeWriter, speed);
-                    }
-                }
-                
-                typeWriter();
-            } else {
-                messageDiv.textContent = message;
-                chatBox.appendChild(messageDiv);
-            }
-            
+            // Scroll to bottom
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        function appendMessage(message, className) {
+            const chatBox = document.querySelector('.chat-box');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${className}`;
+            messageDiv.textContent = message;
+            chatBox.appendChild(messageDiv);
+        }
+
+        // Add event listeners
+        document.querySelector('.speak-truth-btn').addEventListener('click', sendMessage);
         document.getElementById('userInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
